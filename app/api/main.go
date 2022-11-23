@@ -20,7 +20,7 @@ import (
 )
 
 func main() {
-	config.LoadEnvVars()
+	config.SetConfig()
 	AppStart()
 }
 

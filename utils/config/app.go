@@ -10,6 +10,13 @@ import (
 	"github.com/joho/godotenv"
 )
 
+func SetConfig() {
+	LoadEnvVars()
+
+	redis := new(RedisConfig)
+	redis.SetConfigRedis().ConnectRedis()
+}
+
 func LoadEnvVars() {
 	dir, _ := os.Getwd()
 	AppPath := dir
