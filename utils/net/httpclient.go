@@ -33,15 +33,15 @@ func (httpParam *HttpParam) HttpDo() (*http.Response, error) {
 	headers := makeHeader(httpParam.Header)
 	timeout := time.Duration(httpParam.Timeout) * time.Second
 	switch httpParam.Method {
-	case "get":
+	case http.MethodGet:
 		return get(httpParam.Url, headers, timeout)
-	case "post":
+	case http.MethodPost:
 		return post(httpParam.Url, strings.NewReader(httpParam.Body), headers, timeout)
-	case "put":
+	case http.MethodPut:
 		return put(httpParam.Url, strings.NewReader(httpParam.Body), headers, timeout)
-	case "patch":
+	case http.MethodPatch:
 		return patch(httpParam.Url, strings.NewReader(httpParam.Body), headers, timeout)
-	case "delete":
+	case http.MethodDelete:
 		return delete(httpParam.Url, strings.NewReader(httpParam.Body), headers, timeout)
 	default:
 		return post(httpParam.Url, strings.NewReader(httpParam.Body), headers, timeout)

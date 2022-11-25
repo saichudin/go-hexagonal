@@ -1,7 +1,7 @@
-package common
+package response
 
 import (
-	"e-menu-tentakel/utils/config"
+	"e-menu-tentakel/utils/validation"
 	"errors"
 	"strings"
 
@@ -26,10 +26,10 @@ func GenerateResponseError(err error, data ...map[string]string) interface{} {
 				field = "field"
 			}
 
-			out[field] = fe.Translate(config.Translate)
+			out[field] = fe.Translate(validation.Translate)
 
 			if message == "" {
-				message = fe.Translate(config.Translate)
+				message = fe.Translate(validation.Translate)
 			}
 		}
 		return &ErrorResponse{

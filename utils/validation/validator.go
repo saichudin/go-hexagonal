@@ -13,6 +13,10 @@ type Validator struct {
 	Validator *validator.Validate
 }
 
+var (
+	Translate translator.Translator
+)
+
 func (cv *Validator) Validate(i interface{}) error {
 	id := id.New()
 	uni := translator.New(id, id)
@@ -20,12 +24,12 @@ func (cv *Validator) Validate(i interface{}) error {
 	//---split into function---
 	// translate into bahasa
 	var ok bool
-	trans, ok := uni.GetTranslator("id")
+	Translate, ok := uni.GetTranslator("id")
 	if !ok {
 		return errors.New("cannot find translate")
 	}
 
-	err := id_translations.RegisterDefaultTranslations(cv.Validator, trans)
+	err := id_translations.RegisterDefaultTranslations(cv.Validator, Translate)
 	if err != nil {
 		return errors.New("cannot register translation")
 	}
