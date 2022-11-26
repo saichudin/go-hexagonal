@@ -2,7 +2,7 @@ package routes
 
 import (
 	merchantService "e-menu-tentakel/core/service/merchant"
-	merchantRepo "e-menu-tentakel/infrastructure/repository/merchant"
+	merchantRedis "e-menu-tentakel/infrastructure/repository/merchant/redis"
 	"e-menu-tentakel/interface/api/extl/lite/routes/middleware"
 	"e-menu-tentakel/utils/config"
 	"net/http"
@@ -16,16 +16,19 @@ func API(e *echo.Echo) {
 		return c.String(http.StatusOK, "health check lite routes!")
 	})
 
-	merchantRepo := merchantRepo.NewMerchantRepository(config.RedisClient)
-	merchantService := merchantService.NewMerchantService(merchantRepo)
+	merchantRedis := merchantRedis.NewMerchantRepository(config.RedisClient)
+	merchantService := merchantService.NewMerchantService(merchantRedis)
 	weblinkMiddleware := middleware.NewWebLinkMiddleware(merchantService)
 
 	transaction := e.Group("/transaction")
 	transaction.Use(weblinkMiddleware.Weblink())
 	transaction.POST("/checkout/:outlet_code", func(c echo.Context) error {
-		return c.JSON(http.StatusOK, map[string]string{
-			"outlet_id":   c.Get("outlet_id").(string),
-			"merchant_id": c.Get("merchant_id").(string),
+		return c.JSON(http.StatusOK, map[string]interface{}{
+			"outlet_id":        c.Get("outlet_id"),
+			"merchant_id":      c.Get("merchant_id"),
+			"outlet_longitude": c.Get("outlet_longitude"),
+			"outlet_latitude":  c.Get("outlet_latitude"),
+			"outlet_couriers":  c.Get("outlet_couriers"),
 		})
 	})
 }
