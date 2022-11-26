@@ -32,6 +32,7 @@ func (mdw WebLinkMiddleware) Weblink() echo.MiddlewareFunc {
 
 			c.Set("outlet_id", weblinkUri.IdOutlet)
 			c.Set("merchant_id", weblinkUri.IdMerchant)
+			c.Set("merchant_owner", detailOutlet.OwnerName)
 			c.Set("outlet_longitude", detailOutlet.ShipperLongitude)
 			c.Set("outlet_latitude", detailOutlet.ShipperLatitude)
 			c.Set("outlet_couriers", detailOutlet.ListCourier)
