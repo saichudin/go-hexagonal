@@ -18,7 +18,9 @@ func SetConfig() {
 }
 
 func LoadEnvVars() {
-	dir, _ := os.Getwd()
+	cwd, _ := os.Getwd()
+	dirString := strings.Split(cwd, "e-menu-tentakel")
+	dir := strings.Join([]string{dirString[0], "e-menu-tentakel"}, "")
 	AppPath := dir
 
 	godotenv.Load(filepath.Join(AppPath, "/.env"))
