@@ -8,12 +8,13 @@ import (
 	"e-menu-tentakel/interface/api/extl/v1/routes/middleware"
 
 	"e-menu-tentakel/utils/config"
+	"e-menu-tentakel/utils/logger"
 )
 
 func MerchantInjector() (handler merchantHandler.MerchantHandlerContract, weblinkMiddleware *middleware.WebLinkMiddleware) {
 	weborderAdapter := weborderAdapter.NewWeborderAdapter()
 	merchantRepo := merchantRepo.NewMerchantRepository(config.RedisClient)
-	merchantCore := merchantCore.NewMerchantService(merchantRepo, weborderAdapter)
+	merchantCore := merchantCore.NewMerchantService(merchantRepo, weborderAdapter, logger.Logger)
 	handler = merchantHandler.NewMerchantHandler(merchantCore)
 	weblinkMiddleware = middleware.NewWebLinkMiddleware(merchantCore)
 	return

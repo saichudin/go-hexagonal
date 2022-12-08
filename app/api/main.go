@@ -4,6 +4,7 @@ import (
 	"context"
 	"e-menu-tentakel/utils/config"
 	"e-menu-tentakel/utils/conv"
+	"e-menu-tentakel/utils/logger"
 	"e-menu-tentakel/utils/validation"
 	"os"
 	"os/signal"
@@ -22,6 +23,8 @@ import (
 
 func main() {
 	config.SetConfig()
+	config.RegisterRequiredMiddleware()
+	logger.LoadLogger()
 	AppStart()
 }
 
@@ -34,6 +37,7 @@ func AppStart() {
 	if conv.StringToBool(os.Getenv("APP_DEBUG")) {
 		e.Debug = true
 	}
+	DispatchMiddleware(e)
 
 	// register validator
 	val := validator.New()
@@ -53,7 +57,7 @@ func AppStart() {
 
 	go func() {
 		if err := e.Start(":" + os.Getenv("APP_PORT")); err != nil {
-			//logger.Logger.Info("Shutting down the server.")
+			logger.Logger.Info("Shutting down the server.")
 		}
 	}()
 
@@ -66,6 +70,24 @@ func AppStart() {
 	defer cancel()
 
 	if err := e.Shutdown(ctx); err != nil {
-		//logger.Logger.Error(err.Error())
+		logger.Logger.Error(err.Error())
+	}
+}
+
+/**
+ * Dispatch registered middleware.
+ *
+ * @param *echo.Echo Echo framework instance (as reference.)
+ * @return void
+ */
+func DispatchMiddleware(e *echo.Echo) {
+	middlewares := config.MiddlewareFactory.GetAll()
+
+	for _, mf := range middlewares {
+		if mf.IsPre() {
+			e.Pre(mf.GetCallback())
+		} else {
+			e.Use(mf.GetCallback())
+		}
 	}
 }

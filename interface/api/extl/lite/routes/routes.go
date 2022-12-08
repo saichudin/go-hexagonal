@@ -8,6 +8,8 @@ import (
 	"e-menu-tentakel/utils/config"
 	"net/http"
 
+	"e-menu-tentakel/utils/logger"
+
 	"github.com/labstack/echo/v4"
 )
 
@@ -20,7 +22,7 @@ func API(e *echo.Echo) {
 
 	merchantRedis := merchantRedis.NewMerchantRepository(config.RedisClient)
 	merchantAdapter := merchantAdapter.NewWeborderAdapter()
-	merchantService := merchantService.NewMerchantService(merchantRedis, merchantAdapter)
+	merchantService := merchantService.NewMerchantService(merchantRedis, merchantAdapter, logger.Logger)
 	weblinkMiddleware := middleware.NewWebLinkMiddleware(merchantService)
 
 	transaction := e.Group("/transaction")
