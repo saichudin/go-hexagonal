@@ -4,6 +4,7 @@ import (
 	"context"
 	"e-menu-tentakel/core/model"
 	portMerchant "e-menu-tentakel/core/port/merchant"
+	"e-menu-tentakel/utils/constants"
 	"encoding/json"
 
 	"github.com/go-redis/redis/v8"
@@ -13,6 +14,8 @@ type MerchantRepository struct {
 	Redis *redis.Client
 }
 
+var ctx = context.Background()
+
 func NewMerchantRepository(redis *redis.Client) portMerchant.MerchantRepository {
 	return &MerchantRepository{
 		Redis: redis,
@@ -20,7 +23,7 @@ func NewMerchantRepository(redis *redis.Client) portMerchant.MerchantRepository 
 }
 
 func (repo *MerchantRepository) GetOutletWebLinkInfo(outletCode string) (weblink *model.WebLinkUri, err error) {
-	redisWebLink, err := repo.Redis.Get(context.TODO(), "web_link_uri:"+outletCode).Result()
+	redisWebLink, err := repo.Redis.Get(ctx, "web_link_uri:"+outletCode).Result()
 	if err != nil {
 		return nil, err
 	}
@@ -33,16 +36,20 @@ func (repo *MerchantRepository) GetOutletWebLinkInfo(outletCode string) (weblink
 	return weblink, nil
 }
 
-func (repo *MerchantRepository) GetDetailOutlet(outletId string) (detailOutlet *model.DetailOutlet, err error) {
-	redisDetailOutlet, err := repo.Redis.Get(context.TODO(), "detail_outlet:"+outletId).Result()
+func (repo *MerchantRepository) StoreWeblink(key string, value interface{}) error {
+	data, err := json.Marshal(value)
 	if err != nil {
-		return nil, err
+		return err
 	}
 
-	err = json.Unmarshal([]byte(redisDetailOutlet), &detailOutlet)
+	err = repo.Redis.Set(ctx, "web_link_uri:"+key, data, constants.RedisExpireDuration).Err()
 	if err != nil {
-		return nil, err
+		return err
 	}
 
-	return detailOutlet, nil
+	return nil
+}
+
+func (repo *MerchantRepository) DeleteWeblink(key string) error {
+	return repo.Redis.Del(ctx, "web_link_uri:"+key).Err()
 }

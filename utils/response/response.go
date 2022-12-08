@@ -9,6 +9,23 @@ type Response struct {
 	Data    any    `json:"data"`
 }
 
+func (r *Response) SetResponse(message string, data any) {
+	r.Message = message
+	r.Data = data
+}
+
+type ResponseMsg struct {
+	Status  bool   `json:"status"`
+	Message string `json:"msg"`
+	Data    any    `json:"data"`
+}
+
+func (r *ResponseMsg) SetResponseMsg(status bool, message string, data any) {
+	r.Status = status
+	r.Message = message
+	r.Data = data
+}
+
 type ResponseWithMeta struct {
 	Message string `json:"message"`
 	Data    any    `json:"data"`

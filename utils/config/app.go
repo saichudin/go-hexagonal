@@ -10,6 +10,19 @@ import (
 	"github.com/joho/godotenv"
 )
 
+var AppEnv EnvSetup
+
+type EnvSetup struct {
+	UrlSvcTransaction string
+	UrlSvcShipment    string
+	JwtMayang         string
+	UrlWeborder       string
+}
+
+func (e *EnvSetup) setEnvSetup() {
+	e.UrlWeborder = os.Getenv("WEB_ORDER_URL")
+}
+
 func SetConfig() {
 	LoadEnvVars()
 
@@ -24,6 +37,7 @@ func LoadEnvVars() {
 	AppPath := dir
 
 	godotenv.Load(filepath.Join(AppPath, "/.env"))
+	AppEnv.setEnvSetup()
 }
 
 // LoadEnvVarsLocal is load .env.local is used to load env vars for local development. For testing purposes

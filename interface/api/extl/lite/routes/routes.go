@@ -2,6 +2,7 @@ package routes
 
 import (
 	merchantService "e-menu-tentakel/core/service/merchant"
+	merchantAdapter "e-menu-tentakel/infrastructure/adapter/weborder"
 	merchantRedis "e-menu-tentakel/infrastructure/repository/merchant/redis"
 	"e-menu-tentakel/interface/api/extl/lite/routes/middleware"
 	"e-menu-tentakel/utils/config"
@@ -12,12 +13,14 @@ import (
 
 func API(e *echo.Echo) {
 	lite := e.Group("/lite")
+
 	lite.GET("/health", func(c echo.Context) error {
 		return c.String(http.StatusOK, "health check lite routes!")
 	})
 
 	merchantRedis := merchantRedis.NewMerchantRepository(config.RedisClient)
-	merchantService := merchantService.NewMerchantService(merchantRedis)
+	merchantAdapter := merchantAdapter.NewWeborderAdapter()
+	merchantService := merchantService.NewMerchantService(merchantRedis, merchantAdapter)
 	weblinkMiddleware := middleware.NewWebLinkMiddleware(merchantService)
 
 	transaction := e.Group("/transaction")

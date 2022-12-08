@@ -12,6 +12,7 @@ import (
 	"time"
 
 	routeLite "e-menu-tentakel/interface/api/extl/lite/routes"
+	routeV1 "e-menu-tentakel/interface/api/extl/v1/routes"
 	routeWeborder "e-menu-tentakel/interface/api/extl/weborder/v1/routes"
 
 	"github.com/go-playground/validator/v10"
@@ -48,6 +49,7 @@ func AppStart() {
 	// assign route
 	routeLite.API(e)
 	routeWeborder.API(e)
+	routeV1.API(e)
 
 	go func() {
 		if err := e.Start(":" + os.Getenv("APP_PORT")); err != nil {

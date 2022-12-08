@@ -6,29 +6,36 @@ import (
 )
 
 type MerchantService struct {
-	repoMerchant portMerchant.MerchantRepository
+	repoMerchant    portMerchant.MerchantRepository
+	adapterWeborder portMerchant.WeborderAdapter
 }
 
-func NewMerchantService(repoMerchant portMerchant.MerchantRepository) portMerchant.MerchantService {
+func NewMerchantService(repoMerchant portMerchant.MerchantRepository, adapterWeborder portMerchant.WeborderAdapter) portMerchant.MerchantService {
 	return &MerchantService{
-		repoMerchant: repoMerchant,
+		repoMerchant:    repoMerchant,
+		adapterWeborder: adapterWeborder,
 	}
 }
 
-func (srv *MerchantService) OutletWebLinkInfo(outletCode string) (*model.WebLinkUri, error) {
+func (srv *MerchantService) GetOutletWebLinkInfo(outletCode string) (*model.WebLinkUri, error) {
 	outletWebLink, err := srv.repoMerchant.GetOutletWebLinkInfo(outletCode)
-	if err != nil {
+	if err != nil && err.Error() != "redis: nil" {
 		return nil, err
+	}
+
+	if outletWebLink == nil {
+		outletWebLink, err = srv.adapterWeborder.GetDetailWeblink(outletCode)
+		if err != nil {
+			return nil, err
+		}
+
+		if outletWebLink != nil {
+			err = srv.repoMerchant.StoreWeblink(outletCode, outletWebLink)
+			if err != nil {
+				//log aja
+			}
+		}
 	}
 
 	return outletWebLink, nil
-}
-
-func (srv *MerchantService) DetailOutlet(outletId string) (*model.DetailOutlet, error) {
-	detailOutlet, err := srv.repoMerchant.GetDetailOutlet(outletId)
-	if err != nil {
-		return nil, err
-	}
-
-	return detailOutlet, nil
 }
