@@ -1,4 +1,4 @@
-module e-menu-tentakel
+module go-hexagonal
 
 go 1.18
 

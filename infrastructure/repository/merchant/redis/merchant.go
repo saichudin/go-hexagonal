@@ -2,10 +2,10 @@ package redis
 
 import (
 	"context"
-	"e-menu-tentakel/core/model"
-	portMerchant "e-menu-tentakel/core/port/merchant"
-	"e-menu-tentakel/utils/constants"
 	"encoding/json"
+	"go-hexagonal/core/model"
+	portMerchant "go-hexagonal/core/port/merchant"
+	"go-hexagonal/utils/constants"
 
 	"github.com/go-redis/redis/v8"
 )

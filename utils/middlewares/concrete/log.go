@@ -1,7 +1,7 @@
 package concrete
 
 import (
-	"e-menu-tentakel/utils/log"
+	"go-hexagonal/utils/log"
 
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"

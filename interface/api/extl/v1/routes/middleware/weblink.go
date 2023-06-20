@@ -1,7 +1,7 @@
 package middleware
 
 import (
-	port "e-menu-tentakel/core/port/merchant"
+	port "go-hexagonal/core/port/merchant"
 	"net/http"
 
 	"github.com/labstack/echo/v4"

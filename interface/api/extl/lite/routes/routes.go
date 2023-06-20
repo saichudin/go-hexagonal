@@ -1,14 +1,14 @@
 package routes
 
 import (
-	merchantService "e-menu-tentakel/core/service/merchant"
-	merchantAdapter "e-menu-tentakel/infrastructure/adapter/weborder"
-	merchantRedis "e-menu-tentakel/infrastructure/repository/merchant/redis"
-	"e-menu-tentakel/interface/api/extl/lite/routes/middleware"
-	"e-menu-tentakel/utils/config"
+	merchantService "go-hexagonal/core/service/merchant"
+	merchantAdapter "go-hexagonal/infrastructure/adapter/weborder"
+	merchantRedis "go-hexagonal/infrastructure/repository/merchant/redis"
+	"go-hexagonal/interface/api/extl/lite/routes/middleware"
+	"go-hexagonal/utils/config"
 	"net/http"
 
-	"e-menu-tentakel/utils/logger"
+	"go-hexagonal/utils/logger"
 
 	"github.com/labstack/echo/v4"
 )

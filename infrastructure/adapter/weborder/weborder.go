@@ -1,13 +1,13 @@
 package weborder
 
 import (
-	"e-menu-tentakel/core/model"
-	port "e-menu-tentakel/core/port/merchant"
-	"e-menu-tentakel/interface/api/extl/v1/merchant/response"
-	"e-menu-tentakel/utils/config"
-	"e-menu-tentakel/utils/net"
 	"encoding/json"
 	"fmt"
+	"go-hexagonal/core/model"
+	port "go-hexagonal/core/port/merchant"
+	"go-hexagonal/interface/api/extl/v1/merchant/response"
+	"go-hexagonal/utils/config"
+	"go-hexagonal/utils/net"
 	"net/http"
 )
 

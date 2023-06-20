@@ -1,8 +1,8 @@
 package merchant
 
 import (
-	"e-menu-tentakel/core/model"
-	portMerchant "e-menu-tentakel/core/port/merchant"
+	"go-hexagonal/core/model"
+	portMerchant "go-hexagonal/core/port/merchant"
 
 	"bitbucket.org/klopos/majoo-logger/log"
 	"bitbucket.org/klopos/majoo-logger/logger"

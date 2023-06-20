@@ -3,7 +3,7 @@ package log
 import (
 	"strings"
 
-	appLogger "e-menu-tentakel/utils/logger"
+	appLogger "go-hexagonal/utils/logger"
 
 	"bitbucket.org/klopos/majoo-logger/log"
 	"github.com/labstack/echo/v4"

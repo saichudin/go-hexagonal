@@ -1,8 +1,8 @@
 package config
 
 import (
-	"e-menu-tentakel/utils/middlewares"
-	"e-menu-tentakel/utils/middlewares/concrete"
+	"go-hexagonal/utils/middlewares"
+	"go-hexagonal/utils/middlewares/concrete"
 )
 
 var (

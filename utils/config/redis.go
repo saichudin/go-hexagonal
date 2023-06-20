@@ -2,8 +2,8 @@ package config
 
 import (
 	"context"
-	"e-menu-tentakel/utils/conv"
 	"fmt"
+	"go-hexagonal/utils/conv"
 	"os"
 
 	"github.com/go-redis/redis/v8"

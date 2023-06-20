@@ -1,14 +1,14 @@
 package routes
 
 import (
-	merchantCore "e-menu-tentakel/core/service/merchant"
-	weborderAdapter "e-menu-tentakel/infrastructure/adapter/weborder"
-	merchantRepo "e-menu-tentakel/infrastructure/repository/merchant/redis"
-	merchantHandler "e-menu-tentakel/interface/api/extl/v1/merchant"
-	"e-menu-tentakel/interface/api/extl/v1/routes/middleware"
+	merchantCore "go-hexagonal/core/service/merchant"
+	weborderAdapter "go-hexagonal/infrastructure/adapter/weborder"
+	merchantRepo "go-hexagonal/infrastructure/repository/merchant/redis"
+	merchantHandler "go-hexagonal/interface/api/extl/v1/merchant"
+	"go-hexagonal/interface/api/extl/v1/routes/middleware"
 
-	"e-menu-tentakel/utils/config"
-	"e-menu-tentakel/utils/logger"
+	"go-hexagonal/utils/config"
+	"go-hexagonal/utils/logger"
 )
 
 func MerchantInjector() (handler merchantHandler.MerchantHandlerContract, weblinkMiddleware *middleware.WebLinkMiddleware) {

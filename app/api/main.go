@@ -2,19 +2,19 @@ package main
 
 import (
 	"context"
-	"e-menu-tentakel/utils/config"
-	"e-menu-tentakel/utils/conv"
-	"e-menu-tentakel/utils/logger"
-	"e-menu-tentakel/utils/validation"
+	"go-hexagonal/utils/config"
+	"go-hexagonal/utils/conv"
+	"go-hexagonal/utils/logger"
+	"go-hexagonal/utils/validation"
 	"os"
 	"os/signal"
 	"reflect"
 	"strings"
 	"time"
 
-	routeLite "e-menu-tentakel/interface/api/extl/lite/routes"
-	routeV1 "e-menu-tentakel/interface/api/extl/v1/routes"
-	routeWeborder "e-menu-tentakel/interface/api/extl/weborder/v1/routes"
+	routeLite "go-hexagonal/interface/api/extl/lite/routes"
+	routeV1 "go-hexagonal/interface/api/extl/v1/routes"
+	routeWeborder "go-hexagonal/interface/api/extl/weborder/v1/routes"
 
 	"github.com/go-playground/validator/v10"
 	"github.com/labstack/echo/v4"

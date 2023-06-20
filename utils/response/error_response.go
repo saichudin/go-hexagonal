@@ -1,8 +1,8 @@
 package response
 
 import (
-	"e-menu-tentakel/utils/validation"
 	"errors"
+	"go-hexagonal/utils/validation"
 	"strings"
 
 	"github.com/go-playground/validator/v10"

@@ -1,7 +1,7 @@
 package merchant
 
 import (
-	"e-menu-tentakel/core/model"
+	"go-hexagonal/core/model"
 )
 
 type WeborderAdapter interface {

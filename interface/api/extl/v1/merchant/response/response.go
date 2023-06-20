@@ -1,6 +1,6 @@
 package response
 
-import "e-menu-tentakel/core/model"
+import "go-hexagonal/core/model"
 
 type RespDetailWeblinkUrl struct {
 	Message string            `json:"message"`

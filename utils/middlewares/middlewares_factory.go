@@ -1,8 +1,8 @@
 package middlewares
 
 import (
-	"e-menu-tentakel/utils/middlewares/concrete"
 	"fmt"
+	"go-hexagonal/utils/middlewares/concrete"
 )
 
 type MiddlewareFactoryProto interface {

@@ -5,9 +5,9 @@ import (
 
 	"github.com/labstack/echo/v4"
 
-	port "e-menu-tentakel/core/port/merchant"
-	"e-menu-tentakel/utils/constants"
-	"e-menu-tentakel/utils/response"
+	port "go-hexagonal/core/port/merchant"
+	"go-hexagonal/utils/constants"
+	"go-hexagonal/utils/response"
 )
 
 type MerchantHandlerContract interface {
