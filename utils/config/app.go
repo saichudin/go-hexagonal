@@ -28,6 +28,7 @@ func SetConfig() {
 
 	redis := new(RedisConfig)
 	redis.SetConfigRedis().ConnectRedis()
+	InitDb()
 }
 
 func LoadEnvVars() {

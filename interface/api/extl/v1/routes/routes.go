@@ -21,4 +21,10 @@ func API(e *echo.Echo) {
 	test.GET("/health/:outlet_code", func(c echo.Context) error {
 		return c.String(http.StatusOK, "health check lite routes!")
 	})
+
+	risetHandler := RisetInjector()
+	risetRoute := e.Group("/riset")
+	risetRoute.GET("/mpay/customers", risetHandler.GetMpayCustomers)
+	risetRoute.POST("/mpay/customer", risetHandler.GetMpayCustomer)
+
 }
