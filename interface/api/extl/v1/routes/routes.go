@@ -25,6 +25,8 @@ func API(e *echo.Echo) {
 	risetHandler := RisetInjector()
 	risetRoute := e.Group("/riset")
 	risetRoute.GET("/mpay/customers", risetHandler.GetMpayCustomers)
-	risetRoute.POST("/mpay/customer", risetHandler.GetMpayCustomer)
-
+	risetRoute.GET("/mpay/customer/:id", risetHandler.GetMpayCustomer)
+	risetRoute.POST("/mpay/customer", risetHandler.CreateMpayCustomer)
+	risetRoute.PUT("/mpay/customer/:id", risetHandler.UpdateMpayCustomer)
+	risetRoute.DELETE("/mpay/customer/:id", risetHandler.DeleteMpayCustomer)
 }

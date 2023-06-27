@@ -7,5 +7,9 @@ import (
 
 type RisetAdapter interface {
 	GetMpayCustomers(params request.MpayCustReq) (*[]mpay.MpayCustomer, int64, error)
-	GetMpayCustomer(phone string) (*mpay.MpayCustomer, error)
+	GetMpayCustomer(id int) (*mpay.MpayCustomer, error)
+	GetMpayCustomerByPhone(phone string) (*mpay.MpayCustomer, error)
+	CreateMpayCustomer(payload request.MpayCustPayload) (error)
+	UpdateMpayCustomer(id int, payload request.MpayCustPayload) error
+	DeleteMpayCustomer(id int) error
 }

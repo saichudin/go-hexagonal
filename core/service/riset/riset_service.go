@@ -32,9 +32,9 @@ func (srv RisetService) GetMpayCustomers(params request.MpayCustReq) (*mpay.Resp
 	return &response, err
 }
 
-func (srv RisetService) GetMpayCustomer(phone string) (*mpay.ResponseMpayCustomer, error) {
+func (srv RisetService) GetMpayCustomer(id int) (*mpay.ResponseMpayCustomer, error) {
 	var response mpay.ResponseMpayCustomer
-	mpayCustomer, err := srv.adapterRiset.GetMpayCustomer(phone)
+	mpayCustomer, err := srv.adapterRiset.GetMpayCustomer(id)
 	fmt.Println()
 	if err != nil {
 		response.Message = err.Error()
@@ -45,6 +45,57 @@ func (srv RisetService) GetMpayCustomer(phone string) (*mpay.ResponseMpayCustome
 
 	response.Message = "success"
 	response.Data = *mpayCustomer
+
+	return &response, err
+}
+
+func (srv RisetService) CreateMpayCustomer(payload request.MpayCustPayload) (*mpay.ResponseMpayCustomer, error) {
+	var response mpay.ResponseMpayCustomer
+	err := srv.adapterRiset.CreateMpayCustomer(payload)
+
+	if err != nil {
+		response.Message = err.Error()
+		response.Data = nil
+
+		return &response, err
+	}
+	mpayCustomer, err := srv.adapterRiset.GetMpayCustomerByPhone(payload.PhoneNumber)
+
+	response.Message = "success create data"
+	response.Data = *mpayCustomer
+
+	return &response, err
+}
+
+func (srv RisetService) UpdateMpayCustomer(id int, payload request.MpayCustPayload) (*mpay.ResponseMpayCustomer, error) {
+	var response mpay.ResponseMpayCustomer
+	err := srv.adapterRiset.UpdateMpayCustomer(id, payload)
+
+	if err != nil {
+		response.Message = err.Error()
+		response.Data = nil
+
+		return &response, err
+	}
+	mpayCustomer, err := srv.adapterRiset.GetMpayCustomer(id)
+
+	response.Message = "success update data"
+	response.Data = *mpayCustomer
+
+	return &response, err
+}
+
+func (srv RisetService) DeleteMpayCustomer(id int) (*mpay.ResponseMpayCustomer, error) {
+	var response mpay.ResponseMpayCustomer
+	err := srv.adapterRiset.DeleteMpayCustomer(id)
+	if err != nil {
+		response.Message = err.Error()
+		response.Data = nil
+
+		return &response, err
+	}
+
+	response.Message = "success delete data"
 
 	return &response, err
 }

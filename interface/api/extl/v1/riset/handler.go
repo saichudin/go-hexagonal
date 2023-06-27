@@ -1,11 +1,10 @@
 package riset
 
 import (
-	"fmt"
-	"go-hexagonal/core/model/mpay"
 	port "go-hexagonal/core/port/riset"
 	"net/http"
 	"strconv"
+	"time"
 
 	"go-hexagonal/interface/api/extl/v1/riset/request"
 
@@ -15,6 +14,9 @@ import (
 type RisetHandlerContract interface {
 	GetMpayCustomers(c echo.Context) error
 	GetMpayCustomer(c echo.Context) error
+	CreateMpayCustomer(c echo.Context) error
+	UpdateMpayCustomer(c echo.Context) error
+	DeleteMpayCustomer(c echo.Context) error
 }
 
 type RisetHandler struct {
@@ -50,19 +52,49 @@ func (h RisetHandler) GetMpayCustomers(c echo.Context) error {
 }
 
 func (h RisetHandler) GetMpayCustomer(c echo.Context) error {
-	var payload mpay.MpayCustomerRequest
+	id , _ := strconv.Atoi(c.Param("id")) 
 
-	err := c.Bind(&payload)
-	if err != nil {
-		return echo.NewHTTPError(http.StatusBadRequest)
-	}
-
-	fmt.Println(payload)
-	res, err := h.service.GetMpayCustomer(payload.Phone_number)
+	// fmt.Println(payload)
+	res, err := h.service.GetMpayCustomer(id)
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, res)
 	}
 
 	// return &response, nil
+	return c.JSON(http.StatusOK, res)
+}
+
+func (h RisetHandler) CreateMpayCustomer(c echo.Context) error {
+	var payload request.MpayCustPayload
+	err := c.Bind(&payload)
+	if err != nil {
+		return echo.NewHTTPError(http.StatusBadRequest)
+	}
+	// payload.ID = 0
+	payload.CreatedAt = time.Now()
+	payload.UpdatedAt = time.Now()
+
+	res, err := h.service.CreateMpayCustomer(payload)
+	return c.JSON(http.StatusOK, res)
+}
+
+func (h RisetHandler) UpdateMpayCustomer(c echo.Context) error {
+	var payload request.MpayCustPayload
+	id , _ := strconv.Atoi(c.Param("id")) 
+	err := c.Bind(&payload)
+	if err != nil {
+		return echo.NewHTTPError(http.StatusBadRequest)
+	}
+	payload.CreatedAt = time.Now()
+	payload.UpdatedAt = time.Now()
+	res, _ := h.service.UpdateMpayCustomer(id, payload)
+
+	return c.JSON(http.StatusOK, res)
+}
+
+func (h RisetHandler) DeleteMpayCustomer(c echo.Context) error {
+	id , _ := strconv.Atoi(c.Param("id")) 
+	res, _ := h.service.DeleteMpayCustomer(id)
+
 	return c.JSON(http.StatusOK, res)
 }

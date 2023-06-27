@@ -7,5 +7,8 @@ import (
 
 type RisetService interface {
 	GetMpayCustomers(params request.MpayCustReq) (*mpay.ResponseMpayCustomers, error)
-	GetMpayCustomer(phone string) (*mpay.ResponseMpayCustomer, error)
+	GetMpayCustomer(id int) (*mpay.ResponseMpayCustomer, error)
+	CreateMpayCustomer(payload request.MpayCustPayload) (*mpay.ResponseMpayCustomer, error)
+	UpdateMpayCustomer(id int, payload request.MpayCustPayload) (*mpay.ResponseMpayCustomer, error)
+	DeleteMpayCustomer(id int) (*mpay.ResponseMpayCustomer, error)
 }

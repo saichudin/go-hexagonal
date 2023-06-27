@@ -5,6 +5,7 @@ import (
 	"go-hexagonal/core/model/mpay"
 	port "go-hexagonal/core/port/riset"
 	"go-hexagonal/utils/config"
+
 	// "gorm.io/gorm"
 	"go-hexagonal/interface/api/extl/v1/riset/request"
 	"go-hexagonal/utils/paginator"
@@ -28,7 +29,7 @@ func (adapter *RisetAdapter) GetMpayCustomers(params request.MpayCustReq) (*[]mp
 
 	err := config.Db.Unscoped().Scopes(paginate).Table("mpay_customer").Find(&mpayCustomer).Error
 	if err != nil {
-		
+
 	}
 
 	// count for pagination
@@ -38,7 +39,18 @@ func (adapter *RisetAdapter) GetMpayCustomers(params request.MpayCustReq) (*[]mp
 	return &mpayCustomer, count, nil
 }
 
-func (adapter *RisetAdapter) GetMpayCustomer(phone string) (*mpay.MpayCustomer, error) {
+func (adapter *RisetAdapter) GetMpayCustomer(id int) (*mpay.MpayCustomer, error) {
+	var mpayCustomer mpay.MpayCustomer
+	err := config.Db.Unscoped().Table("mpay_customer").Where("id = ?", id).First(&mpayCustomer).Error
+	fmt.Println()
+	if err != nil {
+		return &mpayCustomer, err
+	}
+
+	return &mpayCustomer, nil
+}
+
+func (adapter *RisetAdapter) GetMpayCustomerByPhone(phone string) (*mpay.MpayCustomer, error) {
 	var mpayCustomer mpay.MpayCustomer
 	err := config.Db.Unscoped().Table("mpay_customer").Where("phone_number = ?", phone).First(&mpayCustomer).Error
 	fmt.Println()
@@ -47,4 +59,33 @@ func (adapter *RisetAdapter) GetMpayCustomer(phone string) (*mpay.MpayCustomer, 
 	}
 
 	return &mpayCustomer, nil
+}
+
+func (adapter *RisetAdapter) CreateMpayCustomer(payload request.MpayCustPayload) error {
+	fmt.Println()
+	err := config.Db.Table("mpay_customer").Create(payload).Error
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func (adapter *RisetAdapter) UpdateMpayCustomer(id int, payload request.MpayCustPayload) error {
+	fmt.Println()
+	err := config.Db.Table("mpay_customer").Where("id = ?", id).Updates(payload)
+	fmt.Println(err)
+	if err != nil {
+		return err.Error
+	}
+	return nil
+}
+
+func (adapter *RisetAdapter) DeleteMpayCustomer(id int) error {
+	var mpayCust mpay.MpayCustomer
+	err := config.Db.Table("mpay_customer").Where("id = ?", id).Delete(&mpayCust)
+
+	if err != nil {
+		return err.Error
+	}
+	return nil
 }
